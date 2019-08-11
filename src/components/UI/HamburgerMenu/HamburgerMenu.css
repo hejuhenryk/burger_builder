@@ -1,0 +1,22 @@
+.HamburgerMenu {
+    width: 2.5rem;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: column;
+    padding: 12px 0;
+}
+
+.Bar {
+    height: 6px;
+    background: #fff;
+    width: 100%;
+}
+
+@media (min-width: 500px) {
+    .HamburgerMenu {
+        display: none;
+    }
+}
+
