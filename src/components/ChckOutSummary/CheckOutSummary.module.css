@@ -1,0 +1,19 @@
+.CheckOutSummary {
+    padding: 4rem;
+}
+
+.CheckOutSummary h1{
+    text-align: center;
+}
+
+
+.Buttons {
+    display: flex;
+    justify-content: center;
+}
+
+@media(max-width: 450px) {
+    .CheckOutSummary {
+        padding: 5px;
+    }
+}

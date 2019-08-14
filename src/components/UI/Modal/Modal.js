@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react'
+import React, { Component } from 'react'
 import classes from './Modal.css'
 import Backdrop from '../Backdrop/Backdrop'
 
@@ -12,12 +12,12 @@ export default class Modal extends Component {
         let classN = [classes.Modal, this.props.show ? null : classes.Away ].join(' ')
  
         return (
-            <Fragment>
+            <>
                 <Backdrop show={this.props.show} click={this.props.click}/>
                 <div className={classN}>
                     {this.props.children}
                 </div>
-            </Fragment>
+            </>
         )
     }
 }

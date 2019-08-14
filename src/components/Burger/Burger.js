@@ -6,7 +6,7 @@ import Burgerengridient from './BurderIngredient/BurgerIngredient'
 
 
 
-const burger = (props) => {
+const Burger = (props) => {
 
     let tranIngredients = Object.keys( props.ingredients ) // arra of keys [ salad, tommato, meat]
         .map( ingKey => { // for each key
@@ -36,5 +36,5 @@ const burger = (props) => {
 
 // }
 
-export default burger
+export default Burger
 

@@ -12,14 +12,11 @@
     transition: transform .5s ease-out;
 }
 
-@media (min-width: 500px) {
-    .SideDrawer {
-        display: none;
-    }
-}
+
 
 .Open {
-    transform: translateX(0)
+    transform: translateX(0);
+    /* display: block; */
 }
 
 .Close {
@@ -31,3 +28,8 @@
     margin-bottom: 2rem;
 }
 
+@media (min-width: 500px) {
+    .SideDrawer {
+        display: none;
+    }
+}
