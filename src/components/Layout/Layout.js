@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from './Layout.module.css'
-import Toolbar from '../Navigation/Toolbar/Toolbar';
+import Toolbar from '../Navigation/Toolbar/Toolbar.jsx';
 import SideDrawer from '../Navigation/SideDrawer/SideDrawer';
 
 

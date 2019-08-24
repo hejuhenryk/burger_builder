@@ -1,18 +1,18 @@
 import React from 'react'
 
-import classes from './Toolbar.css'
+import styles from './Toolbar.module.css'
 import Logo from '../../Logo/Logo';
-import NavigationItems from '../NavigationItems/NavigationItems';
+import NavigationItems from '../NavigationItems/NavigationItems.jsx';
 import HamburgerMenu from '../../UI/HamburgerMenu/HamburgerMenu';
 
 const Toolbar = (props) => {
     return (
-        <header className={classes.Toolbar}>
+        <header className={styles.Toolbar}>
             <HamburgerMenu click={props.hamburgerMenuClicked}/>
             {/* <div style={{height: '80%'}}><Logo /></div> */}
-            <div className={[classes.Logo, classes.DesktopOnly].join(' ')}><Logo /></div>
+            <div className={[styles.Logo, styles.DesktopOnly].join(' ')}><Logo /></div>
             {/* <Logo height='90%'/> */}
-            <nav className={classes.DesktopOnly}>
+            <nav className={styles.DesktopOnly}>
                 <NavigationItems />
             </nav>
         </header>

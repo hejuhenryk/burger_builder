@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react'
 import Button from '../../UI/Button/Button'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 
 
 const OrderSummary = (props) => {
@@ -23,14 +23,10 @@ const OrderSummary = (props) => {
                 </ul>
                 <p><strong>Total: {props.price}</strong></p>
                 <span>
-                    <Link to={{
-                        pathname: 'checkout',
-                        state: props.ingredients
-                    }}>
-                        <Button 
-                        // click={props.confirmOrder} 
+                    <Button 
+                        click={props.confirmOrder} 
                         type={'Success'}
-                        >Yes, Please.</Button></Link> 
+                        >Yes, Please.</Button>
                     <Button 
                         click={props.cancelOrder} 
                         type={'Danger'}

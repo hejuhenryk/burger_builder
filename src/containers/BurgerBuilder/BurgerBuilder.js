@@ -17,7 +17,7 @@ const ingredientsPrice = {
 }
 
 
-const BurgerBuilder = () => {
+const BurgerBuilder = props => {
     const [ingredients, setIngredients] = useState({})
     const [totalPrice, setTotalPrice] = useState(4)
     const [ispurchasable, setIsPurchasable] = useState(false)
@@ -38,7 +38,13 @@ const BurgerBuilder = () => {
     }
 
     const purchasContinuedHandler = () => {
-
+        props.history.push({
+            pathname: '/checkout',
+            state: {
+                ingredients: ingredients,
+                totalPrice: totalPrice
+            }
+        })
     }
 
     const updatePurchaseState = (ingredients) => {
