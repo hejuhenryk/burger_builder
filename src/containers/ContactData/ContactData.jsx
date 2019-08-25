@@ -6,12 +6,7 @@ import Loader from '../../components/Loader/Loader';
 import Input from '../../components/UI/Input/Input';
 
 const ContactData = props => {
-    const initialData = {
-        name: '',
-        email: '',
-        street: '',
-        zipCode: ''
-    }
+
     const initialForm = {
         firsname: {
             elementType: 'input',
@@ -68,7 +63,7 @@ const ContactData = props => {
                 placeholder: 'Your E-Mail'
             },
             value: ''
-        },
+        }/* ,
         deliveryMethod: {
             elementType: 'select',
             elementConfig: {
@@ -78,27 +73,20 @@ const ContactData = props => {
                 ]
             },
             value: ''
-        }
+        } */
     }
 
 
     const reducer = (state, action) => {
-        switch ( action.type ) {
-            case ( 'name' ): 
-               return { ...state, name: action.payload }       
-            case ( 'email' ): 
-               return { ...state, email: action.payload }       
-            case ( 'street' ): 
-               return { ...state, street: action.payload }       
-            case ( 'zipCode' ): 
-               return { ...state, zipCode: action.payload }   
-            default:
-                return state    
-        }
+        //JSON.parse(JSON.stringify(o)) // 
+        let newState = JSON.parse(JSON.stringify(state))
+        console.log(newState)
+        newState[action.type].value = action.payload
+        return {newState}    
     }
 
     const [isLoading, setIsLoading] = useState(false)
-    const [contacData, dispatch] = useReducer(reducer, initialData)
+    const [contacData, dispatch] = useReducer(reducer, initialForm)
 
 
     const submitHandler = event => {
@@ -120,19 +108,21 @@ const ContactData = props => {
                 setIsLoading(false)
             })
     }
-    const inputChangeHandler = event => {
-        console.log(event.target.value)
+    const inputChangeHandler = ( e, inputType ) => {
+        e.preventDefault()
+        console.log(inputType, e.target.value)
+        dispatch({type: inputType , payload: e.target.value})
     }
     let formInputs = []
-    for (const input in initialForm) {
+    for (const input in contacData) {
         formInputs.push(
             <Input 
                 key={input}
-                inputtype={initialForm[input].elementType} 
-                inputConfig={initialForm[input].elementConfig} 
-                name={initialForm[input]}
-                value={initialForm[input].value}
-                change={e => inputChangeHandler(e)}
+                inputtype={contacData[input].elementType} 
+                inputconfig={contacData[input].elementConfig} 
+                name={contacData[input]}
+                value={contacData[input].value}
+                change={(event) => inputChangeHandler(event, input)}
             />
 
         )
