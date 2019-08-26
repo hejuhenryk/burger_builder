@@ -4,7 +4,6 @@ import CheckOutSummary from '../../components/ChckOutSummary/CheckOutSummary';
 import ContactData from '../ContactData/ContactData';
 
 const CheckOut = props => {
-    console.log(props)
     const burgerIngredients = props.location.state.ingredients
     const cancelCheckuotHandler = () => {
         props.history.goBack()

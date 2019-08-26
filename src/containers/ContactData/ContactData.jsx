@@ -1,4 +1,5 @@
 import React,{ useState, useReducer } from 'react'
+import { withRouter } from 'react-router-dom'
 import Button from '../../components/UI/Button/Button';
 import styles from './ContactData.modue.css'
 import axios from '../../axios-orders'
@@ -14,7 +15,12 @@ const ContactData = props => {
                 type: 'text',
                 placeholder: 'Your Firstname'
             },
-            value: ''
+            value: '',
+            validation: {
+                isRequired: true
+            },
+            isValid: false,
+            isTouched: false
         },
         lastname: {
             elementType: 'input',
@@ -22,7 +28,12 @@ const ContactData = props => {
                 type: 'text',
                 placeholder: 'Your Lastname'
             },
-            value: ''
+            value: '',
+            validation: {
+                isRequired: true
+            },
+            isValid: false,
+            isTouched: false
         },
         street: {
             elementType: 'input',
@@ -30,7 +41,12 @@ const ContactData = props => {
                 type: 'text',
                 placeholder: 'Street Name'
             },
-            value: ''
+            value: '',
+            validation: {
+                isRequired: true
+            },
+            isValid: false,
+            isTouched: false
         },
         zipCode: {
             elementType: 'input',
@@ -38,7 +54,14 @@ const ContactData = props => {
                 type: 'text',
                 placeholder: 'ZIP code'
             },
-            value: ''
+            value: '',
+            validation: {
+                isRequired: true,
+                minLength: 4,
+                maxLength: 5
+            },
+            isValid: false,
+            isTouched: false
         },
         phone: {
             elementType: 'input',
@@ -46,7 +69,12 @@ const ContactData = props => {
                 type: 'text',
                 placeholder: 'Phone number'
             },
-            value: ''
+            value: '',
+            validation: {
+                isRequired: true
+            },
+            isValid: false,
+            isTouched: false
         },
         country: {
             elementType: 'input',
@@ -54,7 +82,12 @@ const ContactData = props => {
                 type: 'text',
                 placeholder: 'Country'
             },
-            value: ''
+            value: '',
+            validation: {
+                isRequired: true
+            },
+            isValid: false,
+            isTouched: false
         },
         email: {
             elementType: 'input',
@@ -62,8 +95,13 @@ const ContactData = props => {
                 type: 'email',
                 placeholder: 'Your E-Mail'
             },
-            value: ''
-        }/* ,
+            value: '',
+            validation: {
+                isRequired: true
+            },
+            isValid: false,
+            isTouched: false
+        },
         deliveryMethod: {
             elementType: 'select',
             elementConfig: {
@@ -73,29 +111,59 @@ const ContactData = props => {
                 ]
             },
             value: ''
-        } */
+        }
+    }
+
+    const checkValidity = (value, rules) => {
+        let isValid = true;
+
+        if (rules.isRequired) {
+            isValid = value.trim() !== '' && isValid
+        }
+        if (rules.minLength) {
+            isValid = value.length >= rules.minLength && isValid
+        }
+        
+        if (rules.maxLength) {
+            isValid = value.length <= rules.maxLength && isValid
+        }
+        return isValid
     }
 
 
     const reducer = (state, action) => {
-        //JSON.parse(JSON.stringify(o)) // 
+        //JSON.parse(JSON.stringify(o)) // good enough for this model
         let newState = JSON.parse(JSON.stringify(state))
-        console.log(newState)
         newState[action.type].value = action.payload
-        return {newState}    
+        if(newState[action.type].validation) {
+            newState[action.type].isTouched = true
+            newState[action.type].isValid = checkValidity(newState[action.type].value, newState[action.type].validation )
+        }
+        let isFValid = true
+        for ( let key in newState ) {
+            if ( newState[key].validation)
+                isFValid = newState[action.type].isValid && isFValid;
+        }
+        setIsFormValid(isFValid)
+        return newState    
     }
 
     const [isLoading, setIsLoading] = useState(false)
+    const [isFormValid, setIsFormValid] = useState(true)
     const [contacData, dispatch] = useReducer(reducer, initialForm)
 
 
     const submitHandler = event => {
         event.preventDefault()
         setIsLoading(true)
+        let customerData = {}
+        for (const key in contacData) {
+            customerData[key] = contacData[key].value
+        }
         const order = {
             ingredients: props.ingredients, 
             price: props.totalPrice, 
-            customer: contacData
+            customer: customerData
         }
         axios.post('/orders.json', order)
             .then( r => {
@@ -110,7 +178,6 @@ const ContactData = props => {
     }
     const inputChangeHandler = ( e, inputType ) => {
         e.preventDefault()
-        console.log(inputType, e.target.value)
         dispatch({type: inputType , payload: e.target.value})
     }
     let formInputs = []
@@ -123,29 +190,22 @@ const ContactData = props => {
                 name={contacData[input]}
                 value={contacData[input].value}
                 change={(event) => inputChangeHandler(event, input)}
+                isInvalid={!contacData[input].isVAlid}
+                shouldValidate={contacData[input].validation}
+                isTouched={contacData[input].isTouched}
             />
-
         )
     }
     let inhold = <>
         <h4>Enter your contact details</h4>
-        <Button type='Danger' click={()=>{
-                dispatch({type: 'name', payload: 'Marcin'})
-                console.log(contacData)
-            }}>dotodo</Button>
-        <Button type='Danger' click={()=>{
-                dispatch({type: 'email', payload: 'kochac@kanapie.com'})
-                console.log(contacData)
-            }}>dotodo</Button>
-
-
-        <form onSubmit={(event) => submitHandler(event)}> 
+        <form onSubmit={(event) => {
+            if (isFormValid)
+            submitHandler(event)
+        }}> 
             {formInputs}
-            {/* <Input inputtype='input' type='text' name='name' placeholder='Your name' />
-            <Input inputtype='input' type='text' name='email' placeholder='Your email' />
-            <Input inputtype='input' type='text' name='street' placeholder='Your street' />
-            <Input inputtype='input' type='text' name='zipCode' placeholder='Your zip code' /> */}
-            <Button type='Success' >Confirm</Button>
+            {isFormValid ? 
+                <Button type='Success' >Confirm</Button> : 
+                <Button type='Danger' disabled={!isFormValid}>Invalid Form</Button>}
         </form>
     </>
 
@@ -156,4 +216,4 @@ const ContactData = props => {
     )
 }
 
-export default ContactData
+export default withRouter(ContactData)
