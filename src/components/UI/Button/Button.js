@@ -8,7 +8,11 @@ const Button = (props) => {
         document.getElementById(btnID).disabled = true
     }
     return (
-        <button id={btnID} className={[classes.Button, classes[props.type]].join(' ')} onClick={props.click}>
+        <button 
+            id={btnID} 
+            disabled={props.disabled}
+            className={[classes.Button, classes[props.type]].join(' ')} 
+            onClick={props.click}>
             {props.children}
         </button>
     )

@@ -6,8 +6,8 @@ import axios from '../../axios-orders'
 import Loader from '../../components/Loader/Loader';
 import Input from '../../components/UI/Input/Input';
 
-const ContactData = props => {
 
+const ContactData = props => {
     const initialForm = {
         firsname: {
             elementType: 'input',
@@ -110,28 +110,25 @@ const ContactData = props => {
                     {value: 'cheapest', displayValue: 'Cheapest'}
                 ]
             },
-            value: ''
+            value: 'fastes'
         }
     }
-
     const checkValidity = (value, rules) => {
         let isValid = true;
-
         if (rules.isRequired) {
             isValid = value.trim() !== '' && isValid
         }
         if (rules.minLength) {
             isValid = value.length >= rules.minLength && isValid
         }
-        
         if (rules.maxLength) {
             isValid = value.length <= rules.maxLength && isValid
         }
         return isValid
     }
-
-
-    const reducer = (state, action) => {
+    const [isLoading, setIsLoading] = useState(false)
+    const [isFormValid, setIsFormValid] = useState(false)
+    const [contacData, dispatch] = useReducer((state, action) => {
         //JSON.parse(JSON.stringify(o)) // good enough for this model
         let newState = JSON.parse(JSON.stringify(state))
         newState[action.type].value = action.payload
@@ -139,18 +136,11 @@ const ContactData = props => {
             newState[action.type].isTouched = true
             newState[action.type].isValid = checkValidity(newState[action.type].value, newState[action.type].validation )
         }
-        let isFValid = true
-        for ( let key in newState ) {
-            if ( newState[key].validation)
-                isFValid = newState[action.type].isValid && isFValid;
-        }
-        setIsFormValid(isFValid)
-        return newState    
-    }
 
-    const [isLoading, setIsLoading] = useState(false)
-    const [isFormValid, setIsFormValid] = useState(true)
-    const [contacData, dispatch] = useReducer(reducer, initialForm)
+        return newState    
+    }, initialForm)
+    
+
 
 
     const submitHandler = event => {
@@ -203,12 +193,12 @@ const ContactData = props => {
             submitHandler(event)
         }}> 
             {formInputs}
-            {isFormValid ? 
-                <Button type='Success' >Confirm</Button> : 
-                <Button type='Danger' disabled={!isFormValid}>Invalid Form</Button>}
+            <Button type='Success' disabled={!isFormValid}>Confirm</Button>
+            
         </form>
+        <button onClick={()=>setIsFormValid(true)}>valid</button>
     </>
-
+    console.log(isFormValid)
     return (
         <div className={styles.ContactData}>
             {isLoading ? <Loader /> : inhold}

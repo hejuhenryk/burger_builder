@@ -11,6 +11,13 @@
     border: 1px solid transparent;
     box-shadow: 2px 2px 2px 1px transparent;
 }
+
+.Button:disabled {
+    color: #ccc;
+    border-color: #ccc;
+    box-shadow: 0.5px .5px 3px  #ccc;
+    cursor: not-allowed;
+}
 /* .Button:first-of-type {
     margin-left: 0;
     padding-left: 0;

@@ -7,6 +7,8 @@ const Input = props => {
 
     if(props.isInvalid && props.shouldValidate && props.isTouched) {
         inputClasses.push(styles.Invalid)
+    } else {
+        inputClasses = [styles.InputElement]
     }
 
     switch ( props.inputtype ) {
