@@ -5,14 +5,6 @@ import BuildControl from '../BuildControl/BuildControl'
 import classes from './BuildControls.css'
 
 
-// const controls = [
-//     { label: 'Salat'},
-//     { label: 'Bacon'},
-//     { label: 'Tomato'},
-//     { label: 'Meat'},
-//     { label: 'Chesse'}
-// ]
-
 const buildControls = (props) => {
     return (
         <div className={classes.BuildControls}>

@@ -13,8 +13,6 @@ const CheckOut = props => {
             pathname: '/checkout/contactData',
             state: props.location.state
         })
-        
-
     }
     
     return (
@@ -38,11 +36,3 @@ const CheckOut = props => {
 
 export default CheckOut
 
-
-// {
-//     pathname: ,
-//     state: {
-//         ingredients: burgerIngredients ? burgerIngredients : {},
-//         totalPrice: props.location.state.totalPrice.toFixed(2)
-//     }
-// }

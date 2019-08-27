@@ -126,6 +126,7 @@ const ContactData = props => {
         }
         return isValid
     }
+    
     const [isLoading, setIsLoading] = useState(false)
     const [isFormValid, setIsFormValid] = useState(false)
     const [contacData, dispatch] = useReducer((state, action) => {
