@@ -1,4 +1,4 @@
-import React,{ useState, useReducer } from 'react'
+import React,{ useState, useReducer, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import Button from '../../components/UI/Button/Button';
 import styles from './ContactData.modue.css'
@@ -106,11 +106,17 @@ const ContactData = props => {
             elementType: 'select',
             elementConfig: {
                 options: [
+                    {value: '', displayValue: '----'},
                     {value: 'fastes', displayValue: 'Fastest'},
                     {value: 'cheapest', displayValue: 'Cheapest'}
                 ]
             },
-            value: 'fastes'
+            value: '',
+            validation: {
+                isRequired: true
+            },
+            isValid: false,
+            isTouched: false
         }
     }
     const checkValidity = (value, rules) => {
@@ -127,6 +133,16 @@ const ContactData = props => {
         return isValid
     }
     
+    const checkIfFormIsValid = (form) => {
+        let isValid = true
+        for(let input in form) {
+            if (form[input].validation) {
+                isValid = (form[input].isValid && isValid);
+            } 
+        }
+        return isValid
+    }
+
     const [isLoading, setIsLoading] = useState(false)
     const [isFormValid, setIsFormValid] = useState(false)
     const [contacData, dispatch] = useReducer((state, action) => {
@@ -137,15 +153,20 @@ const ContactData = props => {
             newState[action.type].isTouched = true
             newState[action.type].isValid = checkValidity(newState[action.type].value, newState[action.type].validation )
         }
-
+        
+        // console.log(`is ${action.type} valid:`,newState[action.type].isValid)
         return newState    
     }, initialForm)
     
 
-
+    useEffect(() => {
+        setIsFormValid(checkIfFormIsValid(contacData))
+    }, [contacData])
 
     const submitHandler = event => {
         event.preventDefault()
+        if(!isFormValid) return ;
+
         setIsLoading(true)
         let customerData = {}
         for (const key in contacData) {
@@ -181,12 +202,13 @@ const ContactData = props => {
                 name={contacData[input]}
                 value={contacData[input].value}
                 change={(event) => inputChangeHandler(event, input)}
-                isInvalid={!contacData[input].isVAlid}
+                isInvalid={!contacData[input].isValid}
                 shouldValidate={contacData[input].validation}
                 isTouched={contacData[input].isTouched}
             />
         )
     }
+    //setIsFormValid( checkIfFormIsValid(contacData))
     let inhold = <>
         <h4>Enter your contact details</h4>
         <form onSubmit={(event) => {
@@ -199,7 +221,7 @@ const ContactData = props => {
         </form>
         <button onClick={()=>setIsFormValid(true)}>valid</button>
     </>
-    console.log(isFormValid)
+    // console.log(`is form valid: `, isFormValid)
     return (
         <div className={styles.ContactData}>
             {isLoading ? <Loader /> : inhold}
