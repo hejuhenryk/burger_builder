@@ -1,0 +1,59 @@
+[33mcommit 6b83491ae54151353f23aa2ea3e2c8dca649ea73[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Marcin Sawczuk-Szymkiewicz <sawczuk.marcin@gmail.com>
+Date:   Wed Aug 28 14:02:18 2019 +0200
+
+    form validation with hooks works, extra feachers can be added, like email or phone number validatio
+
+[33mcommit f491a64cb8080fe8e98af53863ff4d3f3979a4a1[m
+Author: Marcin Sawczuk-Szymkiewicz <sawczuk.marcin@gmail.com>
+Date:   Tue Aug 27 22:28:56 2019 +0200
+
+    removed coments
+
+[33mcommit 8a09a56ba731db2cec8f850210d712b3f081475b[m
+Author: hejuhenryk <sawczuk.marcin@gmail.com>
+Date:   Mon Aug 26 13:55:24 2019 +0200
+
+    form validation in progress
+
+[33mcommit 56d6f7796290ea150e867f45765a4706c4f659ee[m
+Author: hejuhenryk <sawczuk.marcin@gmail.com>
+Date:   Mon Aug 26 12:35:50 2019 +0200
+
+    form validation
+
+[33mcommit 57141527c5f39d8c6d23ce50bf57e8859ba0f3dd[m
+Author: hejuhenryk <sawczuk.marcin@gmail.com>
+Date:   Sun Aug 25 23:34:57 2019 +0200
+
+    fiz reducer
+
+[33mcommit 1b1e947185b26ad4c8a0b68b06e35741d802c07a[m
+Author: Marcin Sawczuk-Szymkiewicz <sawczuk.marcin@gmail.com>
+Date:   Sat Aug 24 20:42:18 2019 +0200
+
+    added cotact details form
+
+[33mcommit c6d3cee2af7320ce526e05bca94eff68f1c93f00[m
+Author: Marcin Sawczuk-Szymkiewicz <sawczuk.marcin@gmail.com>
+Date:   Wed Aug 14 20:41:23 2019 +0200
+
+    burgerBuilder changed to function component
+
+[33mcommit 5b101a764051ffe432150245fe3abd024db4ac94[m
+Author: Marcin Sawczuk-Szymkiewicz <sawczuk.marcin@gmail.com>
+Date:   Sun Aug 11 12:44:47 2019 +0200
+
+    hendlig errors and conecting with firebse db
+
+[33mcommit b2975486e3ff4b4a9a8540be36dd5f9a1b7b88e1[m
+Author: Marcin Sawczuk-Szymkiewicz <sawczuk.marcin@gmail.com>
+Date:   Mon Jun 17 11:41:39 2019 +0200
+
+    Set up changes for burger-builder project
+
+[33mcommit 29856fd044b6ee5d678bcc05983df7508a8511b4[m
+Author: Marcin Sawczuk-Szymkiewicz <sawczuk.marcin@gmail.com>
+Date:   Mon Jun 17 11:20:11 2019 +0200
+
+    Initial commit from Create React App
