@@ -1,10 +1,11 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 import CheckOutSummary from '../../components/ChckOutSummary/CheckOutSummary';
 import ContactData from '../ContactData/ContactData';
 
 const CheckOut = props => {
-    const burgerIngredients = props.location.state.ingredients
+    // const burgerIngredients = props.ingredients
     const cancelCheckuotHandler = () => {
         props.history.goBack()
     }
@@ -18,21 +19,24 @@ const CheckOut = props => {
     return (
         <div style={{margin: 'auto'}}>
             <CheckOutSummary 
-                ingredients={burgerIngredients ? burgerIngredients : {}}
-                totalPrice={props.location.state.totalPrice.toFixed(2)}
+                ingredients={props.ingredients/* burgerIngredients ? burgerIngredients : {} */}
+                totalPrice={props.totalPrice.toFixed(2)}
                 cancelCheckoutHandler={cancelCheckuotHandler}
                 continueCheckuotHandler={continueCheckuotHandler}
             />
             <Route 
                 path={props.match.url + '/contactData/'} 
-                render={()=><ContactData 
-                    ingredients={burgerIngredients ? burgerIngredients : {}}
-                    totalPrice={props.location.state.totalPrice.toFixed(2)} />
-                }
+                component={ContactData}
             />
         </div>
     )
 }
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredients,
+        totalPrice: state.totalPrice
+    }
+}
 
-export default CheckOut
+export default connect(mapStateToProps)(CheckOut)
 

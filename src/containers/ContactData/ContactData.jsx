@@ -1,4 +1,5 @@
 import React,{ useState, useReducer, useEffect } from 'react'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import Button from '../../components/UI/Button/Button';
 import styles from './ContactData.modue.css'
@@ -228,5 +229,11 @@ const ContactData = props => {
         </div>
     )
 }
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredients,
+        totalPrice: state.ingredients
+    }
+}
 
-export default withRouter(ContactData)
+export default connect(mapStateToProps)(withRouter(ContactData))
