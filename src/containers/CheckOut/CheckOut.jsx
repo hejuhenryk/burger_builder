@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import CheckOutSummary from '../../components/ChckOutSummary/CheckOutSummary';
 import ContactData from '../ContactData/ContactData';
+import {purchaseInit} from '../../store/actions/indexActions'
 
 const CheckOut = props => {
     // const burgerIngredients = props.ingredients
+
     const cancelCheckuotHandler = () => {
         props.history.goBack()
     }
@@ -15,26 +17,31 @@ const CheckOut = props => {
             state: props.location.state
         })
     }
-    
-    return (
-        <div style={{margin: 'auto'}}>
-            <CheckOutSummary 
-                ingredients={props.ingredients/* burgerIngredients ? burgerIngredients : {} */}
-                totalPrice={props.totalPrice.toFixed(2)}
-                cancelCheckoutHandler={cancelCheckuotHandler}
-                continueCheckuotHandler={continueCheckuotHandler}
-            />
-            <Route 
-                path={props.match.url + '/contactData/'} 
-                component={ContactData}
-            />
-        </div>
-    )
+    let summary = <Redirect to='/' />
+    if (props.ingredients)
+        
+        summary = (
+            <div style={{margin: 'auto'}}>
+                { props.isPurchased ? <Redirect to='/' /> : null}
+                <CheckOutSummary 
+                    ingredients={props.ingredients/* burgerIngredients ? burgerIngredients : {} */}
+                    totalPrice={props.totalPrice.toFixed(2)}
+                    cancelCheckoutHandler={cancelCheckuotHandler}
+                    continueCheckuotHandler={continueCheckuotHandler}
+                />
+                <Route 
+                    path={props.match.url + '/contactData/'} 
+                    component={ContactData}
+                />
+            </div>
+        )
+    return summary
 }
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredients,
-        totalPrice: state.totalPrice
+        ingredients: state.burgerBuilder.ingredients,
+        totalPrice: state.burgerBuilder.totalPrice,
+        isPurchased: state.order.isPurchased
     }
 }
 

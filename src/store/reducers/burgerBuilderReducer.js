@@ -1,4 +1,4 @@
-import { actionType } from './../actionTypes'
+import { actionType } from '../actions/actionTypes'
 
 const ingredientsPrice = {
     salad: 0.4,
@@ -9,17 +9,12 @@ const ingredientsPrice = {
 }
 
 const initialState = {
-    ingredients: {
-        salad: 0,
-        bacon: 0,
-        cheese: 0,
-        meat: 0,
-        tomatoe: 0
-    },
-    totalPrice: 4
+    ingredients: null,
+    totalPrice: 4,
+    isError: false
 }
 
-export const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
     if ( action.type === actionType.ADD_INGREDIENT ) {
         return { 
             ...state, 
@@ -32,7 +27,22 @@ export const reducer = (state = initialState, action) => {
             ingredients: { ...state.ingredients, [action.payload]: state.ingredients[action.payload] - 1},
             totalPrice: state.totalPrice - ingredientsPrice[action.payload]
         }
+    } else if (action.type === actionType.SET_INGREDIENTS) {
+        return {
+            ...state, 
+            ingredients: { ...action.payload},
+            totalPrice: initialState.totalPrice,
+            isError: false // in case there was an Error before  
+        }     
+    } else if (action.type === actionType.SET_ERROR) {
+        return {
+            ...state, 
+            // ingredients: { ...state.ingredients},
+            isError: action.payload
+        }          
     } else {
         return state
     }
 }
+
+export default reducer

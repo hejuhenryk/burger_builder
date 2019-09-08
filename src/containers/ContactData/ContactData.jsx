@@ -6,11 +6,13 @@ import styles from './ContactData.modue.css'
 import axios from '../../axios-orders'
 import Loader from '../../components/Loader/Loader';
 import Input from '../../components/UI/Input/Input';
+import withErrorHandler, {} from '../../hoc/withErrorHandler/withErrorHandler'
+import { purchaseBurger } from '../../store/actions/indexActions'
 
 
 const ContactData = props => {
     const initialForm = {
-        firsname: {
+        firstname: {
             elementType: 'input',
             elementConfig: {
                 type: 'text',
@@ -144,18 +146,15 @@ const ContactData = props => {
         return isValid
     }
 
-    const [isLoading, setIsLoading] = useState(false)
     const [isFormValid, setIsFormValid] = useState(false)
     const [contacData, dispatch] = useReducer((state, action) => {
         //JSON.parse(JSON.stringify(o)) // good enough for this model
         let newState = JSON.parse(JSON.stringify(state))
         newState[action.type].value = action.payload
-        if(newState[action.type].validation) {
+        if ( newState[action.type].validation) {
             newState[action.type].isTouched = true
             newState[action.type].isValid = checkValidity(newState[action.type].value, newState[action.type].validation )
         }
-        
-        // console.log(`is ${action.type} valid:`,newState[action.type].isValid)
         return newState    
     }, initialForm)
     
@@ -167,27 +166,18 @@ const ContactData = props => {
     const submitHandler = event => {
         event.preventDefault()
         if(!isFormValid) return ;
-
-        setIsLoading(true)
+        // setIsLoading(true)
         let customerData = {}
         for (const key in contacData) {
             customerData[key] = contacData[key].value
         }
-        const order = {
+
+        const orderData = {
             ingredients: props.ingredients, 
             price: props.totalPrice, 
             customer: customerData
         }
-        axios.post('/orders.json', order)
-            .then( r => {
-                setIsLoading(false)
-            })
-            .then( r => {
-                props.history.push('/')
-            })
-            .catch( e => {
-                setIsLoading(false)
-            })
+        props.onOrderBurger(orderData)
     }
     const inputChangeHandler = ( e, inputType ) => {
         e.preventDefault()
@@ -225,15 +215,21 @@ const ContactData = props => {
     // console.log(`is form valid: `, isFormValid)
     return (
         <div className={styles.ContactData}>
-            {isLoading ? <Loader /> : inhold}
+            {props.isLoading ? <Loader /> : inhold}
         </div>
     )
 }
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredients,
-        totalPrice: state.ingredients
+        ingredients: state.burgerBuilder.ingredients,
+        totalPrice: state.burgerBuilder.totalPrice, 
+        isLoading: state.order.isLoading
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        onOrderBurger: (orderData) => dispatch(purchaseBurger(orderData))
     }
 }
 
-export default connect(mapStateToProps)(withRouter(ContactData))
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(withRouter(ContactData), axios))
