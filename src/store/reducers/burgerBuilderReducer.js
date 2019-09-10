@@ -1,4 +1,5 @@
 import { actionType } from '../actions/actionTypes'
+import { updateObject } from '../utilities'
 
 const ingredientsPrice = {
     salad: 0.4,
@@ -14,35 +15,30 @@ const initialState = {
     isError: false
 }
 
-const reducer = (state = initialState, action) => {
-    if ( action.type === actionType.ADD_INGREDIENT ) {
-        return { 
-            ...state, 
-            ingredients: { ...state.ingredients, [action.payload]: state.ingredients[action.payload] + 1},
-            totalPrice: state.totalPrice + ingredientsPrice[action.payload]
-        }
-    } else if ( action.type === actionType.REMOVE_INGREDIENT ) {
-        return {
-            ...state, 
-            ingredients: { ...state.ingredients, [action.payload]: state.ingredients[action.payload] - 1},
-            totalPrice: state.totalPrice - ingredientsPrice[action.payload]
-        }
-    } else if (action.type === actionType.SET_INGREDIENTS) {
-        return {
-            ...state, 
-            ingredients: { ...action.payload},
-            totalPrice: initialState.totalPrice,
-            isError: false // in case there was an Error before  
-        }     
-    } else if (action.type === actionType.SET_ERROR) {
-        return {
-            ...state, 
-            // ingredients: { ...state.ingredients},
-            isError: action.payload
-        }          
-    } else {
-        return state
+const addIngredient = ( state, ingredient ) => {
+    const updatedIngredients = updateObject( state.ingredients, {[ingredient]: state.ingredients[ingredient] + 1})
+    return updateObject( state, { ingredients: updatedIngredients, totalPrice: state.totalPrice + ingredientsPrice[ingredient]})
+}
+const removeIngredient = ( state, ingredient ) => {
+    const updatedIngredients = updateObject( state.ingredients, {[ingredient]: state.ingredients[ingredient] - 1})
+    return updateObject( state, { ingredients: updatedIngredients, totalPrice: state.totalPrice - ingredientsPrice[ingredient]})
+}
+const setIngredients = ( state, ingredients ) => {
+    const updatedProperties = {
+        ingredients: { ...ingredients},
+        totalPrice: initialState.totalPrice,
+        isError: false
     }
+    return updateObject( state, updatedProperties )
 }
 
+const reducer = (state = initialState, action) => {
+    switch (action.type) {
+        case actionType.REMOVE_INGREDIENT: return removeIngredient(state, action.payload)
+        case actionType.ADD_INGREDIENT: return addIngredient(state, action.payload)
+        case actionType.SET_INGREDIENTS: return setIngredients(state, action.payload)
+        case actionType.SET_ERROR: return updateObject( state, {isError:true} )
+        default: return state
+    }
+}
 export default reducer

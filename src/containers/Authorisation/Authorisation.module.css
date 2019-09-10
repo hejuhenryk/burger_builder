@@ -1,0 +1,18 @@
+.Authorisation {
+    background-color: rosybrown;
+    height: 90vh;
+    width: 100vw;
+}
+
+.Form {
+    width: 40%;
+    min-width: 18rem;
+    margin: 0 auto 0;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-flow: column;
+    border: 2px solid #aaa;
+    background-color: #ccc;
+    position: relative;
+    top: 5rem;
+}

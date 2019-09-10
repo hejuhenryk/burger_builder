@@ -9,7 +9,7 @@ export const addIngredient = ingredientName => {
 }
 export const removeIngredient = ingredientName => {
     return {
-        type: actionType.ADD_INGREDIENT,
+        type: actionType.REMOVE_INGREDIENT,
         payload: ingredientName
     }
 }

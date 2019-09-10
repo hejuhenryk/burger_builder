@@ -21,7 +21,6 @@ const Orders = props => {
     if (props.isLoading) {
         output = <Loader />
     } else if ( props.orders.length) {
-        console.log(props.orders)
         output = <ul>
             {props.orders.map( order => <Order data={order} key={order.id}/>)}
         </ul>
