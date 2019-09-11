@@ -1,9 +1,11 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useState } from 'react'
+import { connect } from 'react-redux'
+import * as action from '../../store/actions/actionIndex'
 import styles from './Authorisation.module.css'
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 
-const Authorisation = () => {
+const Authorisation = props => {
     const initialControls = {
         email: {
             elementType: 'input',
@@ -47,7 +49,7 @@ const Authorisation = () => {
             isValid = value.length <= rules.maxLength && isValid
         }
         if (rules.emailType) {
-            const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             isValid = re.test(value) && isValid
         }
         return isValid
@@ -61,7 +63,7 @@ const Authorisation = () => {
         }
         return newState    
     }
-
+    const [isSignup, setIsSignUp] = useState(true)
     const [controls, dispatch] = useReducer(reducer, initialControls)
     let formInput = []
     for (const input in controls) {
@@ -83,20 +85,40 @@ const Authorisation = () => {
         e.preventDefault()
         dispatch({type: inputType , payload: e.target.value})
     }
+    const submitHandler = (e) => {
+        e.preventDefault()
+        const email = controls.email.value
+        const password = controls.password.value
+        props.onAuthorisation(email, password)
+    }
+    const swithcAuthModeHandler = () => {
+        setIsSignUp(!isSignup)
+    }
+
     return (
         <div className={styles.Authorisation}>
             <div className={styles.Form}>
-                <form>
+                <form onSubmit={event => submitHandler(event)}>
                     {formInput}
-                    <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
-                        <Button type='Success'>FORGET</Button>
-                        <Button type='Danger'>LOGIN</Button>
-                    </div>
+                    <Button type='Success'>LOGIN</Button>
                 </form>
+                <Button type='Danger' click={swithcAuthModeHandler}>SIGNINN</Button>
             </div>
         </div>
     )
 }
 
-export default Authorisation
+const mapStateToProps = state => {
+    return {
+
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAuthorisation: (email, password) => dispatch(action.auth(email, password))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Authorisation)
  

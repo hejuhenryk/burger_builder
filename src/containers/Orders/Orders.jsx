@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
-import * as actions from '../../store/actions/indexActions'
+import * as actions from '../../store/actions/actionIndex'
 import { connect } from 'react-redux'
 
 import styles from './Orders.module.css'

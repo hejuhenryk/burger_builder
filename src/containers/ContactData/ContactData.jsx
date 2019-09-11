@@ -7,7 +7,7 @@ import axios from '../../axios-orders'
 import Loader from '../../components/Loader/Loader';
 import Input from '../../components/UI/Input/Input';
 import withErrorHandler, {} from '../../hoc/withErrorHandler/withErrorHandler'
-import { purchaseBurger } from '../../store/actions/indexActions'
+import { purchaseBurger } from '../../store/actions/actionIndex'
 
 
 const ContactData = props => {

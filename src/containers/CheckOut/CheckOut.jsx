@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
 import CheckOutSummary from '../../components/ChckOutSummary/CheckOutSummary';
 import ContactData from '../ContactData/ContactData';
-import {purchaseInit} from '../../store/actions/indexActions'
+import {purchaseInit} from '../../store/actions/actionIndex'
 
 const CheckOut = props => {
     // const burgerIngredients = props.ingredients
