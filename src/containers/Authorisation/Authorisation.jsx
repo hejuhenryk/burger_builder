@@ -4,6 +4,7 @@ import * as action from '../../store/actions/actionIndex'
 import styles from './Authorisation.module.css'
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
+import Loader from '../../components/Loader/Loader';
 
 const Authorisation = props => {
     const initialControls = {
@@ -81,6 +82,9 @@ const Authorisation = props => {
             />
         )
     }
+    if (props.isLoading){
+        formInput = <Loader />
+    }
     const inputChangeHandler = ( e, inputType ) => {
         e.preventDefault()
         dispatch({type: inputType , payload: e.target.value})
@@ -89,8 +93,9 @@ const Authorisation = props => {
         e.preventDefault()
         const email = controls.email.value
         const password = controls.password.value
-        props.onAuthorisation(email, password)
+        props.onAuthorisation(email, password, isSignup)
     }
+
     const swithcAuthModeHandler = () => {
         setIsSignUp(!isSignup)
     }
@@ -98,11 +103,11 @@ const Authorisation = props => {
     return (
         <div className={styles.Authorisation}>
             <div className={styles.Form}>
-                <form onSubmit={event => submitHandler(event)}>
-                    {formInput}
-                    <Button type='Success'>LOGIN</Button>
-                </form>
-                <Button type='Danger' click={swithcAuthModeHandler}>SIGNINN</Button>
+            <form onSubmit={event => submitHandler(event)}>
+                {formInput}
+                <Button type='Success'>LOGIN</Button>
+            </form>
+            <Button type='Danger' click={swithcAuthModeHandler}> SWITCH TO {isSignup ? 'SIGNIN' : 'SIGNUP'}</Button>
             </div>
         </div>
     )
@@ -110,13 +115,13 @@ const Authorisation = props => {
 
 const mapStateToProps = state => {
     return {
-
+        isLoading: state.authorisation.isLoading
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuthorisation: (email, password) => dispatch(action.auth(email, password))
+        onAuthorisation: (email, password, isSignup) => dispatch(action.auth(email, password, isSignup))
     }
 }
 
