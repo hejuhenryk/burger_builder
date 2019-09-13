@@ -20,6 +20,19 @@ export const authFailed = error => {
         payload: error
     }
 }
+export const logout = () => {
+    return {
+        type: actionType.AUTHORISATION_LOGOUT
+    }
+}
+
+export const checkAuthorisationTime = (expirationTime) => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(logout())
+        },expirationTime * 1000)
+    }
+}
 
 export const auth = ( email, password, isSignup ) => {
     return dispatch => {
@@ -43,10 +56,10 @@ export const auth = ( email, password, isSignup ) => {
                     id: res.data.localId
                 }
                 dispatch(authSuccess(resData))
+                dispatch(checkAuthorisationTime(res.data.expiresIn))
             })
             .catch( error => {
-                console.log(error)
-                dispatch( authFailed(error) )
+                dispatch( authFailed(error.response.data.error) )
             })
     }
 }

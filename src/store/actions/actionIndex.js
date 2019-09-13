@@ -12,5 +12,7 @@ export {
 } from './orderActions'
 
 export {
-    auth
+    auth,
+    checkAuthorisationTime,
+    logout
 } from './authActions'

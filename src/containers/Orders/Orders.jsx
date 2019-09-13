@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 import * as actions from '../../store/actions/actionIndex'
 import { connect } from 'react-redux'
@@ -15,7 +15,7 @@ const Orders = props => {
     // const [isLoading, setIsLoading] = useState(true)
     let output = null
     useEffect(() => {
-        props.onOrderFetch()
+        props.onOrderFetch(props.token)
     }, [])
         
     if (props.isLoading) {
@@ -34,12 +34,13 @@ const Orders = props => {
 const mapStateToProps = state => {
     return {
         orders: state.order.orders,
-        isLoading: state.order.isLoading
+        isLoading: state.order.isLoading,
+        token: state.authorisation.token
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderFetch: () => dispatch(actions.fetchOrders())
+        onOrderFetch: (token) => dispatch(actions.fetchOrders(token))
     }
 }
 

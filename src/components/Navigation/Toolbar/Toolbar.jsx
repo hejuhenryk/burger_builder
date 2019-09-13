@@ -6,7 +6,6 @@ import NavigationItems from '../NavigationItems/NavigationItems.jsx';
 import HamburgerMenu from '../../UI/HamburgerMenu/HamburgerMenu';
 
 const Toolbar = (props) => {
-    console.log(props)
     return (
         <header className={styles.Toolbar}>
             <HamburgerMenu click={props.hamburgerMenuClicked}/>

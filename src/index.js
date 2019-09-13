@@ -21,9 +21,9 @@ const rootReducer = combineReducers({
 const logger = store => {
     return next => {
         return action => {
-            console.log('[Mifflewere] Dispaching', action)
+            // console.log('[Mifflewere] Dispaching', action)
             const result = next(action)
-            console.log('[MIddlewere] next state', store.getState() )
+            // console.log('[MIddlewere] next state', store.getState() )
             return result
         }
     }

@@ -177,7 +177,7 @@ const ContactData = props => {
             price: props.totalPrice, 
             customer: customerData
         }
-        props.onOrderBurger(orderData)
+        props.onOrderBurger(orderData, props.token)
     }
     const inputChangeHandler = ( e, inputType ) => {
         e.preventDefault()
@@ -223,12 +223,13 @@ const mapStateToProps = state => {
     return {
         ingredients: state.burgerBuilder.ingredients,
         totalPrice: state.burgerBuilder.totalPrice, 
-        isLoading: state.order.isLoading
+        isLoading: state.order.isLoading, 
+        token: state.authorisation.token
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderBurger: (orderData) => dispatch(purchaseBurger(orderData))
+        onOrderBurger: (orderData, token) => dispatch(purchaseBurger(orderData, token))
     }
 }
 

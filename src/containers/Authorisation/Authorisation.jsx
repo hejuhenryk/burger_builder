@@ -1,4 +1,5 @@
 import React, { useReducer, useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as action from '../../store/actions/actionIndex'
 import styles from './Authorisation.module.css'
@@ -82,6 +83,11 @@ const Authorisation = props => {
             />
         )
     }
+    let errorMessage = null
+    
+    if (props.error){
+        errorMessage = props.error.message
+    }
     if (props.isLoading){
         formInput = <Loader />
     }
@@ -93,17 +99,23 @@ const Authorisation = props => {
         e.preventDefault()
         const email = controls.email.value
         const password = controls.password.value
-        props.onAuthorisation(email, password, isSignup)
+        props.onAuthorisation(email, password, props.isAuth)
     }
 
     const swithcAuthModeHandler = () => {
         setIsSignUp(!isSignup)
     }
+    let redirect = null
+    if(props.isAuth) {
+        redirect = <Redirect to={'/'}/>
+    }
 
     return (
         <div className={styles.Authorisation}>
+            {redirect}
             <div className={styles.Form}>
             <form onSubmit={event => submitHandler(event)}>
+                <p>{errorMessage}</p>
                 {formInput}
                 <Button type='Success'>LOGIN</Button>
             </form>
@@ -115,7 +127,9 @@ const Authorisation = props => {
 
 const mapStateToProps = state => {
     return {
-        isLoading: state.authorisation.isLoading
+        isLoading: state.authorisation.isLoading,
+        error: state.authorisation.error,
+        isAuth: state.authorisation.token !== null
     }
 }
 
