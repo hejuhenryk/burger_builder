@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import axios from './../../axios-orders'
+import axios from '../../axios-orders'
 import * as actions from '../../store/actions/actionIndex'
 import Burger from '../../components/Burger/Burger'
-import BuildControls from '../../components/Burger/BuildControls/BuildControls'
+import BuildControls from '../../components/Burger/BuildControls/BuildControls.jsx'
 import Modal from '../../components/UI/Modal/Modal'
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Loader from '../../components/Loader/Loader';
@@ -20,9 +20,16 @@ const BurgerBuilder = props => {
         props.onInitIngredients()
     }, [])
 
-
     const purchesHandler = () => {
         setIsPurchasing(!isPurchasing)
+    }
+
+    const clickHanlder = () => {
+        if( props.isAuth )
+            purchesHandler()
+        else 
+        props.setAuhtRedirectionPath('/checkout')
+        props.history.push('/auth')
     }
 
     const purchasContinuedHandler = () => {
@@ -51,7 +58,8 @@ const BurgerBuilder = props => {
                         disables={Object.values(props.ingredients)}
                         price={props.totalPrice}
                         purchasable={canPurche(props.ingredients)}
-                        order={purchesHandler}
+                        handleClick={clickHanlder}
+                        isAuth={props.isAuth}
                     />
                 </>
             )
@@ -81,7 +89,8 @@ const mapStateToProps = (state) => {
     return {
         ingredients: state.burgerBuilder.ingredients,
         totalPrice: state.burgerBuilder.totalPrice,
-        isError: state.burgerBuilder.isError
+        isError: state.burgerBuilder.isError,
+        isAuth: state.authorisation.token !== null
     }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -89,7 +98,8 @@ const mapDispatchToProps = (dispatch) => {
         onAddIngredient: (ingredientName) => dispatch(actions.addIngredient(ingredientName)),
         onRemoveIngredient: (ingredientName) => dispatch(actions.removeIngredient(ingredientName)),
         onInitIngredients: () => dispatch(actions.initIngredients()),
-        onInitPurchase: () => dispatch(actions.purchaseInit())
+        onInitPurchase: () => dispatch(actions.purchaseInit()),
+        onSetAuthRedirectPath: path => dispatch(actions.setAuhtRedirectionPath(path))
     }
 }
 

@@ -14,5 +14,6 @@ export {
 export {
     auth,
     checkAuthorisationTime,
-    logout
+    logout, 
+    setAuhtRedirectionPath
 } from './authActions'

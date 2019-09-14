@@ -12,22 +12,24 @@ const ingredientsPrice = {
 const initialState = {
     ingredients: null,
     totalPrice: 4,
-    isError: false
+    isError: false,
+    isBulding: false
 }
 
 const addIngredient = ( state, ingredient ) => {
     const updatedIngredients = updateObject( state.ingredients, {[ingredient]: state.ingredients[ingredient] + 1})
-    return updateObject( state, { ingredients: updatedIngredients, totalPrice: state.totalPrice + ingredientsPrice[ingredient]})
+    return updateObject( state, {isBulding: true,  ingredients: updatedIngredients, totalPrice: state.totalPrice + ingredientsPrice[ingredient]})
 }
 const removeIngredient = ( state, ingredient ) => {
     const updatedIngredients = updateObject( state.ingredients, {[ingredient]: state.ingredients[ingredient] - 1})
-    return updateObject( state, { ingredients: updatedIngredients, totalPrice: state.totalPrice - ingredientsPrice[ingredient]})
+    return updateObject( state, {isBulding: true, ingredients: updatedIngredients, totalPrice: state.totalPrice - ingredientsPrice[ingredient]})
 }
 const setIngredients = ( state, ingredients ) => {
     const updatedProperties = {
         ingredients: { ...ingredients},
         totalPrice: initialState.totalPrice,
-        isError: false
+        isError: false,
+        isBulding: false
     }
     return updateObject( state, updatedProperties )
 }

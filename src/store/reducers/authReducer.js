@@ -13,7 +13,8 @@ const authorisationSuccess = (state, authData) => {
         token: authData.token,
         userId: authData.id,
         error: null, 
-        isLoading: false
+        isLoading: false,
+        authRedirectingPath: '/'
     }
 }
 
@@ -23,6 +24,7 @@ const reducer = (state = initialState, action) => {
         case actionType.AUTHORISATION_FAIL: return updateObject(state, {error: action.payload, isLoading: false})
         case actionType.AUTHORISATION_SUCCESS: return authorisationSuccess(state, action.payload)
         case actionType.AUTHORISATION_LOGOUT: return updateObject(state, {token: null, userId: null} )
+        case actionType.SET_AUTH_REDIRECT_PATH: return updateObject(state, {authRedirectingPath: action.payload})
         default: return state 
     }
 }
