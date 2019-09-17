@@ -21,15 +21,13 @@ const rootReducer = combineReducers({
 const logger = store => {
     return next => {
         return action => {
-            // console.log('[Mifflewere] Dispaching', action)
             const result = next(action)
-            // console.log('[MIddlewere] next state', store.getState() )
             return result
         }
     }
 } 
 
-const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose
 
 const store = createStore(rootReducer, composeEnhancers( applyMiddleware ( logger, thunk )))
 

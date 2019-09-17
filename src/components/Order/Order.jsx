@@ -2,8 +2,6 @@ import React from 'react'
 import styles from './Order.module.css'
 
 const Order = props => {
-
-    // console.log(ord.ingredients)
     const ord = props.data
     let ingredients = ''
     for (let ingredient in ord.ingredients) {

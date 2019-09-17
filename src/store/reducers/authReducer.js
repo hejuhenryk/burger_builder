@@ -1,11 +1,12 @@
-import { actionType, actionPayload } from '../actions/actionTypes'
-import { updateObject } from '../utilities'
+import { actionType } from '../actions/actionTypes'
+import { updateObject } from '../../shared/utilities'
  
 const initialState = {
     token: null,
     userId: null,
     error: null,
-    isLoading: false
+    isLoading: false,
+    authRedirectingPath: '/'
 }
 const authorisationSuccess = (state, authData) => {
     return {
@@ -13,8 +14,7 @@ const authorisationSuccess = (state, authData) => {
         token: authData.token,
         userId: authData.id,
         error: null, 
-        isLoading: false,
-        authRedirectingPath: '/'
+        isLoading: false
     }
 }
 

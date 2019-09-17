@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
 import CheckOutSummary from '../../components/ChckOutSummary/CheckOutSummary';
 import ContactData from '../ContactData/ContactData';
-import {purchaseInit} from '../../store/actions/actionIndex'
 
 const CheckOut = props => {
     // const burgerIngredients = props.ingredients
-
     const cancelCheckuotHandler = () => {
         props.history.goBack()
     }

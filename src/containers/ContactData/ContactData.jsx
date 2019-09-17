@@ -8,6 +8,7 @@ import Loader from '../../components/Loader/Loader';
 import Input from '../../components/UI/Input/Input';
 import withErrorHandler, {} from '../../hoc/withErrorHandler/withErrorHandler'
 import { purchaseBurger } from '../../store/actions/actionIndex'
+import { checkValidity } from '../../shared/checkValidity'
 
 
 const ContactData = props => {
@@ -122,19 +123,7 @@ const ContactData = props => {
             isTouched: false
         }
     }
-    const checkValidity = (value, rules) => {
-        let isValid = true;
-        if (rules.isRequired) {
-            isValid = value.trim() !== '' && isValid
-        }
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid
-        }
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid
-        }
-        return isValid
-    }
+
     
     const checkIfFormIsValid = (form) => {
         let isValid = true
@@ -171,11 +160,11 @@ const ContactData = props => {
         for (const key in contacData) {
             customerData[key] = contacData[key].value
         }
-
         const orderData = {
             ingredients: props.ingredients, 
             price: props.totalPrice, 
-            customer: customerData
+            customer: customerData,
+            userID: props.userId
         }
         props.onOrderBurger(orderData, props.token)
     }
@@ -212,7 +201,6 @@ const ContactData = props => {
         </form>
         <button onClick={()=>setIsFormValid(true)}>valid</button>
     </>
-    // console.log(`is form valid: `, isFormValid)
     return (
         <div className={styles.ContactData}>
             {props.isLoading ? <Loader /> : inhold}
@@ -224,7 +212,8 @@ const mapStateToProps = state => {
         ingredients: state.burgerBuilder.ingredients,
         totalPrice: state.burgerBuilder.totalPrice, 
         isLoading: state.order.isLoading, 
-        token: state.authorisation.token
+        token: state.authorisation.token,
+        userId: state.authorisation.userId
     }
 }
 const mapDispatchToProps = dispatch => {

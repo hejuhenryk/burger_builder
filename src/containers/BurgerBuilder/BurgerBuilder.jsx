@@ -19,66 +19,66 @@ const BurgerBuilder = props => {
     useEffect(() => {
         props.onInitIngredients()
     }, [])
-
-    const purchesHandler = () => {
-        setIsPurchasing(!isPurchasing)
-    }
-
-    const clickHanlder = () => {
-        if( props.isAuth )
-            purchesHandler()
-        else 
-        props.setAuhtRedirectionPath('/checkout')
-        props.history.push('/auth')
-    }
-
-    const purchasContinuedHandler = () => {
-        props.onInitPurchase()
-        props.history.push('/checkout')
-    }
-
     const canPurche = (ingredients) => {
         const sum = Object.values(ingredients).reduce( (sum, igr) => sum + igr, 0 )
         return ( sum > 0 )
     }
 
-        let burger = props.isError ? 
-            <p>Ingredients can not be loaded</p> : 
-            <div style={{margin: '0 auto', width: '64px'}}><Loader /></div>
-        let orderSubmit = null
+    const clickHanlder = () => {
+        if( props.isAuth ) {
+            setIsPurchasing(true)
+        } else {
+            props.onSetAuthRedirectPath('/checkout')
+            props.history.push('/auth')
+        }
+    }
+    const purchasCancelHandler = () => {
+        setIsPurchasing(false)
+    }
+    const purchasContinuedHandler = () => {
+        props.onInitPurchase()
+        props.history.push('/checkout')
+    }
 
-        if(props.ingredients){
-            burger = (
-                <>
-                    <Burger ingredients={props.ingredients}/>
-                    <BuildControls 
-                        add={props.onAddIngredient} 
-                        remove={props.onRemoveIngredient} 
-                        labels={Object.keys(props.ingredients)}
-                        disables={Object.values(props.ingredients)}
-                        price={props.totalPrice}
-                        purchasable={canPurche(props.ingredients)}
-                        handleClick={clickHanlder}
-                        isAuth={props.isAuth}
-                    />
-                </>
-            )
-            orderSubmit = (
-                <OrderSummary 
-                    ingredients={props.ingredients}
-                    cancelOrder={()=>purchesHandler()}
-                    confirmOrder={()=>purchasContinuedHandler()}
-                    price={props.totalPrice.toFixed(2)}
+
+
+    let burger = props.isError ? 
+        <p>Ingredients can not be loaded</p> : 
+        <div style={{margin: '0 auto', width: '64px'}}><Loader /></div>
+    let orderSubmit = null
+
+    if(props.ingredients){
+        burger = (
+            <>
+                <Burger ingredients={props.ingredients}/>
+                <BuildControls 
+                    add={props.onAddIngredient} 
+                    remove={props.onRemoveIngredient} 
+                    labels={Object.keys(props.ingredients)}
+                    disables={Object.values(props.ingredients)}
+                    price={props.totalPrice}
+                    purchasable={canPurche(props.ingredients)}
+                    handleClick={clickHanlder}
+                    isAuth={props.isAuth}
                 />
-            )
-        }
-        if (isLoading) {
-            orderSubmit = <Loader />
-        }
+            </>
+        )
+        orderSubmit = (
+            <OrderSummary 
+                ingredients={props.ingredients}
+                cancelOrder={purchasCancelHandler}
+                confirmOrder={purchasContinuedHandler}
+                price={props.totalPrice.toFixed(2)}
+            />
+        )
+    }
+    if (isLoading) {
+        orderSubmit = <Loader />
+    }
 
     return (
         <>
-            <Modal show={isPurchasing} click={purchesHandler}>
+            <Modal show={isPurchasing} click={clickHanlder}>
                 {orderSubmit}
             </Modal>
             {burger}

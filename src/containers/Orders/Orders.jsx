@@ -11,11 +11,9 @@ import Loader from '../../components/Loader/Loader';
 
 
 const Orders = props => {
-    // const [orders, setOrders] = useState([])
-    // const [isLoading, setIsLoading] = useState(true)
     let output = null
     useEffect(() => {
-        props.onOrderFetch(props.token)
+        props.onOrderFetch(props.token, props.userId)
     }, [])
         
     if (props.isLoading) {
@@ -35,12 +33,13 @@ const mapStateToProps = state => {
     return {
         orders: state.order.orders,
         isLoading: state.order.isLoading,
-        token: state.authorisation.token
+        token: state.authorisation.token,
+        userId: state.authorisation.userId
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderFetch: (token) => dispatch(actions.fetchOrders(token))
+        onOrderFetch: (token, userId) => dispatch(actions.fetchOrders(token, userId))
     }
 }
 

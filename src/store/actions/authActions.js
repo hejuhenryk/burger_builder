@@ -21,6 +21,8 @@ export const authFailed = error => {
     }
 }
 export const logout = () => {
+    localStorage.removeItem('resData')
+    localStorage.removeItem('expirationDate')
     return {
         type: actionType.AUTHORISATION_LOGOUT
     }
@@ -48,8 +50,6 @@ export const auth = ( email, password, isSignup ) => {
         if (!isSignup) {
             url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAXwIXVWrpdv43z4tsnar-aFuvtffAB1wo'
         }
-        
-        
         const authData = {
             email: email,
             password: password,
@@ -57,17 +57,37 @@ export const auth = ( email, password, isSignup ) => {
         }
         axios.post(url, authData)
             .then(  res => {
-                console.log(res.data)
                 const resData = {
                     token: res.data.idToken,
                     id: res.data.localId
                 }
+                const expirationDate = new Date( new Date().getTime() + res.data.expiresIn * 1000 )
+                localStorage.setItem('resData', JSON.stringify(resData))
+                localStorage.setItem('expirationDate', expirationDate)
                 dispatch(authSuccess(resData))
                 dispatch(checkAuthorisationTime(res.data.expiresIn))
             })
             .catch( error => {
                 dispatch( authFailed(error.response.data.error) )
             })
+    }
+}
+
+export const checkIfAuth = () => {
+    return dispatch => {
+        const resData = JSON.parse(localStorage.getItem('resData'))
+        if (!resData) {
+            return //or dispatch(logout())
+        } else {
+            const expirationDate = new Date(localStorage.getItem('expirationDate'))
+            if (expirationDate > new Date()) {
+                const timeLeft = (expirationDate.getTime() - new Date().getTime())/1000 // to get it in seconds
+                dispatch(authSuccess(resData))
+                dispatch(checkAuthorisationTime(timeLeft))
+            } else {
+                dispatch(logout())
+            }
+        }
     }
 }
 /*

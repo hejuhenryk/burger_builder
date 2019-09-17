@@ -12,7 +12,7 @@ const SideDrawer = (props) => {
     return (
         <Fragment>
             <Backdrop show={props.open} click={props.close}/>
-            <div className={classesInput}>
+            <div className={classesInput} onClick={props.close}>
                 {/* <div style={{height: '10%'}}><Logo /></div> */}
                 <div className={classes.Logo}><Logo /></div>
                 <nav>

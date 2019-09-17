@@ -57,10 +57,10 @@ const fetchOrdersSuccess = ( orders ) => {
         payload: orders
     }
 }
-export const fetchOrders = (token) => {
+export const fetchOrders = (token, userId) => {
     return dispatch => {
         dispatch( fetchOrdersStart() )
-        axios.get(`/orders.json?auth=${token}`)
+        axios.get(`/orders.json?auth=${token}&orderBy="userID"&equalTo="${userId}"`)
             .then( r => {
                 const fetchedOrders = []
                 for( let key in r.data ){
