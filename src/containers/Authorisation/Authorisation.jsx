@@ -41,6 +41,16 @@ const Authorisation = props => {
         }
     }
 
+    const checkIfFormIsValid = (form) => {
+        let isValid = true
+        for(let input in form) {
+            if (form[input].validation) {
+                isValid = (form[input].isValid && isValid);
+            } 
+        }
+        return isValid
+    }
+
     useEffect(() => {
         if(!props.isBulding && props.rediractPath !== '/') {
             props.onSetAuthRedirectionPath('/')
@@ -57,7 +67,7 @@ const Authorisation = props => {
         }
         return newState    
     }
-    const [isSignup, setIsSignUp] = useState(true)
+    const [isSignup, setIsSignUp] = useState(false)
     const [controls, dispatch] = useReducer(reducer, initialControls)
 
     let formInput = []
@@ -91,7 +101,24 @@ const Authorisation = props => {
     let errorMessage = null
     
     if (props.error){
-        errorMessage = props.error.message
+        console.log(props.error.message)
+        switch (props.error.message) {
+            case 'INVALID_EMAIL':
+                errorMessage = 'Your email is not valid, login with valid email or SIGNIN'
+                break;
+            case 'EMAIL_EXISTS':
+                errorMessage = 'Your email is registered, please SIGNIN'
+                break;
+            case 'EMAIL_NOT_FOUND':
+                errorMessage = 'Email or password is not registered, please use correct one or SIGNUP'
+                break;
+            case 'INVALID_PASSWORD':
+                    errorMessage = 'Email or password is not registered, please use correct one or SIGNUP'
+                    break;
+            default:
+                errorMessage = props.error.message
+                break;
+        }
     }
     if (props.isLoading){
         formInput = <Loader />
@@ -115,9 +142,10 @@ const Authorisation = props => {
             <form onSubmit={event => submitHandler(event)}>
                 <p>{errorMessage}</p>
                 {formInput}
-                <Button type='Success'>LOGIN</Button>
+                <Button type='Success' disabled={!checkIfFormIsValid(controls)}>{!isSignup ? 'LOGIN' : 'CREATE ACCOUNT'}</Button>
             </form>
-            <Button type='Danger' click={swithcAuthModeHandler}> SWITCH TO {isSignup ? 'SIGNIN' : 'SIGNUP'}</Button>
+            <h3>{!isSignup ? 'Do You need an account?' : 'Do You have an account?'}</h3>
+            <Button type='Danger' click={swithcAuthModeHandler}>SWITCH TO {!isSignup ? 'SIGNUP' : 'SIGNIN'}</Button>
             </div>
         </div>
     )

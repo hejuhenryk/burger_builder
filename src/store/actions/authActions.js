@@ -1,5 +1,6 @@
 import { actionType } from './actionTypes'
 import axios from 'axios';
+import my_auth_key from '../../my_auth_key'
 
 const authStart = () => {
     return {
@@ -46,9 +47,9 @@ export const setAuhtRedirectionPath = path => {
 export const auth = ( email, password, isSignup ) => {
     return dispatch => {
         dispatch(authStart())
-        let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAXwIXVWrpdv43z4tsnar-aFuvtffAB1wo'
+        let url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${my_auth_key}`
         if (!isSignup) {
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAXwIXVWrpdv43z4tsnar-aFuvtffAB1wo'
+            url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${my_auth_key}`
         }
         const authData = {
             email: email,

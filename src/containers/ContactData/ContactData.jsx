@@ -137,7 +137,6 @@ const ContactData = props => {
 
     const [isFormValid, setIsFormValid] = useState(false)
     const [contacData, dispatch] = useReducer((state, action) => {
-        //JSON.parse(JSON.stringify(o)) // good enough for this model
         let newState = JSON.parse(JSON.stringify(state))
         newState[action.type].value = action.payload
         if ( newState[action.type].validation) {

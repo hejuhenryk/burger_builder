@@ -5,7 +5,7 @@ import * as action from '../../../store/actions/actionIndex'
 
 import styles from './NavigationItems.module.css'
 
-const NavigationItems = (props) => {
+export const NavigationItems = (props) => {
     let authorisation = <NavigationItem link={'/auth'}>Login</NavigationItem>
     if (props.isAuth) {
         

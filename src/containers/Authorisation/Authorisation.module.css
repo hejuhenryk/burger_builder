@@ -17,3 +17,8 @@
     top: 5rem;
     align-items: center;
 }
+.Form form{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}

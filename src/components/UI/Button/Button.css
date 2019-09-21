@@ -1,6 +1,6 @@
 .Button {
     background-color: transparent;
-    width: 6rem;
+    min-width: 6rem;
     color: white;
     outline: none;
     cursor: pointer;
@@ -13,9 +13,9 @@
 }
 
 .Button:disabled {
-    color: #ccc;
-    border-color: #ccc;
-    box-shadow: 0.5px .5px 3px  #ccc;
+    color: #b4b4b4;
+    border-color: #b4b4b4;
+    box-shadow: 0.5px .5px 3px  #b4b4b4;
     cursor: not-allowed;
 }
 /* .Button:first-of-type {
