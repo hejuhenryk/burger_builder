@@ -8,6 +8,7 @@ const initialState = {
     isLoading: false,
     authRedirectingPath: '/'
 }
+
 const authorisationSuccess = (state, authData) => {
     return {
         ...state, 

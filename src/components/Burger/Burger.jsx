@@ -1,6 +1,6 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
-import classes from './Burger.css';
+import styles from './Burger.module.css';
 
 import Burgerengridient from './BurderIngredient/BurgerIngredient'
 
@@ -24,7 +24,7 @@ const Burger = (props) => {
         }
 
     return (
-        <div className={classes.Burger}>
+        <div className={styles.Burger}>
             <Burgerengridient type='bread-top' />
             {tranIngredients}
             <Burgerengridient type='bread-bottom' />

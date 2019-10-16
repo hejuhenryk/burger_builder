@@ -11,14 +11,18 @@ import Loader from '../../components/Loader/Loader';
 
 
 const Orders = props => {
+    const {userId, token, onOrderFetch, isLoading, orders} = props
     let output = null
+   
     useEffect(() => {
-        props.onOrderFetch(props.token, props.userId)
-    }, [])
-        
-    if (props.isLoading) {
+        onOrderFetch(token, userId)
+    }, [onOrderFetch, token, userId])
+    
+
+
+    if (isLoading) {
         output = <Loader />
-    } else if ( props.orders.length) {
+    } else if ( orders.length) {
         output = <ul>
             {props.orders.map( order => <Order data={order} key={order.id}/>)}
         </ul>

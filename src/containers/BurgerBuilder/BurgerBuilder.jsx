@@ -11,14 +11,15 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 
 
-const BurgerBuilder = props => {
+const BurgerBuilder = ({onInitIngredients, ...props}) => {
     const [isPurchasing, setIsPurchasing] = useState(false)
     const [isLoading] = useState(false)
     // const [isError, setIsError] = useState(false)
 
     useEffect(() => {
-        props.onInitIngredients()
-    }, [])
+        onInitIngredients()
+    }, [onInitIngredients])
+    
     const canPurche = (ingredients) => {
         const sum = Object.values(ingredients).reduce( (sum, igr) => sum + igr, 0 )
         return ( sum > 0 )
@@ -97,7 +98,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onAddIngredient: (ingredientName) => dispatch(actions.addIngredient(ingredientName)),
         onRemoveIngredient: (ingredientName) => dispatch(actions.removeIngredient(ingredientName)),
-        onInitIngredients: () => dispatch(actions.initIngredients()),
+        onInitIngredients: () => dispatch(actions.initIngredients()) ,
         onInitPurchase: () => dispatch(actions.purchaseInit()),
         onSetAuthRedirectPath: path => dispatch(actions.setAuhtRedirectionPath(path))
     }

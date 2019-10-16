@@ -10,11 +10,9 @@ const Layout = props => {
     const sideDrawerCloseHandler = () => {
         setIsSideDrowerVisible(false)
     }
-    // const sideDrawerOpenHandler = () => {
-    //     setIsSideDrowerVisible(true)
-    // }
+
     const sideDrawerToggleHandler = () => {
-        setIsSideDrowerVisible( isSideDrowerVisible ? false : true )
+        setIsSideDrowerVisible(!isSideDrowerVisible)
     }
     return (
         <>
